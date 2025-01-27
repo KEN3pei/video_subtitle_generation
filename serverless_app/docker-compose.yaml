@@ -1,0 +1,30 @@
+services:
+  app:
+    container_name: extract-audio
+    build:
+      context: extract-audio
+      dockerfile: build/Dockerfile
+    env_file:
+      - extract-audio/.env
+    volumes:
+      - ./tmp:/tmp
+    networks:
+      - local-bridge
+    depends_on:
+      - minio
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+        MINIO_ROOT_USER: root
+        MINIO_ROOT_PASSWORD: password
+    command: server --console-address ":9001" /data
+    networks:
+      - local-bridge
+
+networks:
+  local-bridge:
+    driver: bridge
