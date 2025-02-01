@@ -27,6 +27,9 @@ type BucketBasics struct {
 }
 
 func NewBucketBasics(sdkConfig aws.Config) *BucketBasics {
+	if os.Getenv("AWS_ENDPOINT") == "" {
+		return &BucketBasics{S3Client: s3.NewFromConfig(sdkConfig)}
+	}
 	return &BucketBasics{S3Client: s3.NewFromConfig(sdkConfig, func(o *s3.Options) {
 		o.UsePathStyle = os.Getenv("AWS_USE_PATH_STYLE_ENDPOINT") == "true"
 		o.BaseEndpoint = aws.String(os.Getenv("AWS_ENDPOINT"))
