@@ -15,5 +15,6 @@ COPY --from=build_image /tmp/build-app/app ./
 RUN apk add ffmpeg && \
     mkdir -p /tmp
 
-CMD ["./app"]
 VOLUME ["/tmp"]
+
+CMD ["./app"]
