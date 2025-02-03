@@ -12,6 +12,8 @@ FROM alpine:3.16.2
 
 WORKDIR /app/
 COPY --from=build_image /tmp/build-app/app ./
-RUN apk add ffmpeg
+RUN apk add ffmpeg && \
+    mkdir -p /tmp
 
 CMD ["./app"]
+VOLUME ["/tmp"]
