@@ -66,6 +66,7 @@ func getFileNameWithoutExt(path string) string {
 
 func setEnvs() {
 	filepath := getFileNameWithoutExt(os.Getenv("OBJECT_KEY"))
+	println("filepath:", filepath)
 
 	os.Setenv("LOCAL_INPUT", fmt.Sprintf("/tmp/%s.mp4", filepath))
 	os.Setenv("LOCAL_OUTPUT", fmt.Sprintf("/tmp/%s.mp3", filepath))
