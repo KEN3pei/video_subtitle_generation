@@ -28,10 +28,15 @@ https://zenn.dev/y16ra/articles/31e32e61db8a44
 
 ### docker
 
+```shell
 $ docker build -f build/Dockerfile -t extract-audio .
 
 $ docker run --rm --name extract-audio -it extract-audio /bin/sh
 
 $ docker run -v ./tmp:/tmp --name extract-audio -it --rm extract-audio /bin/sh
 /app # ffmpeg -i /tmp/kokumin_gaito_enzetu.mp4 -q:a 0 -vn /tmp/output.mp3
+```
+
+### docker compose
+
 
