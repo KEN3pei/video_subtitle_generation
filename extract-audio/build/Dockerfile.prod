@@ -1,0 +1,30 @@
+FROM golang:1.22.0-alpine AS build_image
+
+WORKDIR /tmp/build-app
+
+RUN apk add git
+
+COPY . .
+
+RUN go mod tidy && go build -o app .
+
+FROM alpine:3.16.2
+
+WORKDIR /app/
+
+COPY --from=build_image /tmp/build-app/app ./
+
+# ユーザーの作成（UID:GIDは固定）
+ARG UID="1001"
+ARG GID="1001"
+RUN addgroup -g "${GID}" appgroup && \
+    adduser -u "${UID}" -G appgroup -D appuser
+# ファイルの所有者を変更
+RUN chown appuser:appgroup app && \
+    chown appuser:appgroup /tmp
+
+RUN apk add ffmpeg
+
+USER appuser
+
+CMD ["./app"]
